@@ -3,8 +3,9 @@ import { createSlice } from '@reduxjs/toolkit';
 export const authSlice = createSlice({
   name: 'auth',
 
+  // Tengo q lanzar alguna action para saber si esta auth o no, x eso initState es checking
   initialState: {
-    status: 'not-authenticated', // 'not-authenticated', 'checking' , 'authenticated'
+    status: 'checking', // 'not-authenticated', 'checking' , 'authenticated'
     uid: null,
     email: null,
     displayName: null,
