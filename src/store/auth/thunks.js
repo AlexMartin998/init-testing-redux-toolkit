@@ -1,5 +1,6 @@
 import {
   loginWithEmailAndPass,
+  logoutFirebase,
   registerUserWithEmailPassword,
   signInWithGoogle,
 } from '../../firebase/providers';
@@ -51,5 +52,13 @@ export const startLoginWithEmailAndPass = (email, password) => {
     if (!result.ok) return dispatch(logout(result));
 
     dispatch(login(result));
+  };
+};
+
+export const startLogout = () => {
+  return async dispatch => {
+    await logoutFirebase();
+
+    dispatch(logout());
   };
 };

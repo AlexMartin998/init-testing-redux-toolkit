@@ -31,6 +31,7 @@ export const LoginPage = () => {
 
   const handleSubmit = e => {
     e.preventDefault();
+    if (!email || !password) return;
 
     dispatch(startLoginWithEmailAndPass(email, password));
   };
