@@ -19,7 +19,6 @@ export const SidebarItem = ({ title = '', body, id, date, imageUrls = [] }) => {
 
   const handleSelectNote = () => {
     dispatch(setActiveNote({ id, title, body, date, imageUrls }));
-    console.log('first');
   };
 
   return (

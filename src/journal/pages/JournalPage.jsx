@@ -3,7 +3,7 @@ import { AddOutlined } from '@mui/icons-material';
 import { IconButton } from '@mui/material';
 
 import { JournalLayout } from '../layout/JournalLayout';
-import { NothingSelectedView, NotView } from '../views';
+import { NothingSelectedView, NoteView } from '../views';
 import { startNewNote } from '../../store/journal';
 
 export const JournalPage = () => {
@@ -16,8 +16,8 @@ export const JournalPage = () => {
 
   return (
     <JournalLayout>
-      {activeNote?.id ? <NotView /> : <NothingSelectedView />}
-      {/* {!!activeNote ? <NotView /> : <NothingSelectedView />} */}
+      {activeNote?.id ? <NoteView /> : <NothingSelectedView />}
+      {/* {!!activeNote ? <NoteView /> : <NothingSelectedView />} */}
 
       <IconButton
         size="large"

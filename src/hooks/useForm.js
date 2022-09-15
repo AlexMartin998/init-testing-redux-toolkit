@@ -18,6 +18,13 @@ export const useForm = (initState = {}, formValidations = {}) => {
     createValidators();
   }, [formValues]);
 
+  /* // // Cuando cambie la active note/valores del INIT State se dispare este efecto
+  // Con esto ya NO podemos enviar el initState directo desde el useForm, debe ser credo aparte para q tenga la misma referencia, sino da un loop infinito
+  useEffect(() => {
+    setFormValues(initState);
+  }, [initState]);
+ */
+
   const handleInputChange = ({ target }) => {
     setFormValues({
       ...formValues,
@@ -26,6 +33,10 @@ export const useForm = (initState = {}, formValidations = {}) => {
   };
 
   const reset = () => setFormValues(initState);
+
+  const setFormValuesFx = formValues => {
+    setFormValues(formValues);
+  };
 
   // Validations
   const createValidators = () => {
@@ -48,6 +59,7 @@ export const useForm = (initState = {}, formValidations = {}) => {
     formValues,
     handleInputChange,
     reset,
+    setFormValuesFx,
 
     ...formValidation,
     isFormValid,
