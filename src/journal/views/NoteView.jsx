@@ -1,13 +1,17 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { SaveOutlined } from '@mui/icons-material';
-import { Button, Grid, TextField, Typography } from '@mui/material';
+import { SaveOutlined, UploadOutlined } from '@mui/icons-material';
+import { Button, Grid, IconButton, TextField, Typography } from '@mui/material';
 import Swal from 'sweetalert2';
 
 import { useForm } from '../../hooks';
 
 import { ImageGallery } from '../components';
-import { setActiveNote, startSaveNote } from '../../store/journal';
+import {
+  setActiveNote,
+  startSaveNote,
+  startUploadingFiles,
+} from '../../store/journal';
 
 export const NoteView = () => {
   const dispatch = useDispatch();
@@ -21,6 +25,8 @@ export const NoteView = () => {
     const dateFormat = new Date(date);
     return dateFormat.toUTCString();
   }, [date]);
+
+  const fileInputRef = useRef();
 
   useEffect(() => {
     setFormValuesFx(activeNote);
@@ -42,6 +48,12 @@ export const NoteView = () => {
     dispatch(startSaveNote());
   };
 
+  const handleFileInputChange = ({ target }) => {
+    if (target.files.length <= 0) return;
+
+    dispatch(startUploadingFiles(target.files));
+  };
+
   return (
     <Grid
       container
@@ -57,6 +69,22 @@ export const NoteView = () => {
       </Grid>
 
       <Grid item>
+        <input
+          ref={fileInputRef}
+          type="file"
+          multiple
+          onChange={handleFileInputChange}
+          style={{ display: 'none' }}
+        />
+
+        <IconButton
+          color="primary"
+          disabled={isSaving}
+          onClick={() => fileInputRef.current.click()}
+        >
+          <UploadOutlined />
+        </IconButton>
+
         <Button
           color="primary"
           sx={{ padding: 2 }}
@@ -93,7 +121,7 @@ export const NoteView = () => {
         />
       </Grid>
 
-      <ImageGallery />
+      <ImageGallery images={activeNote.imageUrls} />
     </Grid>
   );
 };

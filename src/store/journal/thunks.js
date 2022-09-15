@@ -7,8 +7,9 @@ import {
   setNotes,
   setSaving,
   updateNote,
+  setPhotosToActiveNote,
 } from './';
-import { loadNotes } from '../../helpers';
+import { fileUpload, loadNotes } from '../../helpers';
 
 export const startNewNote = () => {
   // // Obtener el store en los thunks
@@ -21,6 +22,7 @@ export const startNewNote = () => {
       title: '',
       body: '',
       date: new Date().getTime(),
+      imageUrls: [],
     };
 
     // Add new note in firebase
@@ -60,5 +62,21 @@ export const startSaveNote = () => {
 
     const docRef = doc(FirebaseDB, `${uid}/journal/notes/${activeNote.id}`);
     await setDoc(docRef, noteToFireStore, { merge: true });
+  };
+};
+
+export const startUploadingFiles = (files = []) => {
+  return async dispatch => {
+    dispatch(setSaving());
+
+    // cargarlas en paralelo
+    const fileUploadPromises = [];
+    for (const file of files) {
+      fileUploadPromises.push(fileUpload(file));
+    }
+
+    const photosUrls = await Promise.all(fileUploadPromises);
+
+    dispatch(setPhotosToActiveNote(photosUrls));
   };
 };
