@@ -57,7 +57,7 @@ export const RegisterPage = () => {
     setFormSubmited(true);
     if (!isFormValid) return;
 
-    // peticion a firebase para crear user con email & pass
+    // Peticion a firebase para crear user con email & pass
     dispatch(startCreatingUserWithEmailPassword(formValues));
   };
 

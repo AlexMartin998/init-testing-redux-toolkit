@@ -1,0 +1,28 @@
+import { collection, doc, setDoc } from 'firebase/firestore/lite';
+import { FirebaseDB } from '../../firebase/config';
+import { addNewEmptyNote, setActiveNote, savingNewNote } from './';
+
+export const startNewNote = () => {
+  // // Obtener el sotore en los thunks
+  return async (dispatch, getState) => {
+    dispatch(savingNewNote());
+
+    const { uid } = getState().auth;
+
+    const newNote = {
+      title: '',
+      body: '',
+      date: new Date().getTime(),
+    };
+
+    // Add new note in firebase
+    const newDoc = doc(collection(FirebaseDB, `${uid}/journal/notes`));
+    await setDoc(newDoc, newNote);
+
+    newNote.id = newDoc.id;
+
+    // dispatch
+    dispatch(addNewEmptyNote(newNote));
+    dispatch(setActiveNote(newNote));
+  };
+};
