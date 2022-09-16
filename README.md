@@ -1,4 +1,4 @@
-# Testing Journal App - Jest + React Testing Library
+# Testing Redux Toolkit Journal App - Jest + React Testing Library
 
 ## Necessary Facilities
 
@@ -6,6 +6,8 @@
   yarn add --dev jest babel-jest @babel/preset-env @babel/preset-react
   yarn add --dev @testing-library/react @types/jest jest-environment-jsdom
 
+
+  # If style files and/or images are used in a FC
   yarn add identity-obj-proxy -D
 ```
 
