@@ -14,6 +14,7 @@ export const useCheckAuth = () => {
     onAuthStateChanged(FirebaseAuth, async user => {
       if (!user) return dispatch(logout());
 
+      // Preserva el user auth en firebase, en la app al recargar
       const { uid, email, displayName, photoURL } = user;
       dispatch(login({ uid, email, displayName, photoURL }));
 
