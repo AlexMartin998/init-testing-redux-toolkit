@@ -1,20 +1,28 @@
-# Testing Redux Toolkit Journal App - Jest + React Testing Library
+# Intro Testing Redux Toolkit Journal App - Jest + React Testing Library
 
 ## Necessary Facilities
 
 ```
   yarn add --dev jest babel-jest @babel/preset-env @babel/preset-react
   yarn add --dev @testing-library/react @types/jest jest-environment-jsdom
-
-
-  # If style files and/or images are used in a FC
-  yarn add identity-obj-proxy -D
 ```
 
 ### Optional: If fetch is used
 
 ```
   yarn add --dev whatwg-fetch
+```
+
+### Optional: If style files and/or images are used in a FC
+
+```
+  yarn add identity-obj-proxy -D
+```
+
+### Optional: If working with environment variables
+
+```
+  yarn add -D dotenv
 ```
 
 ## Scripts
@@ -57,7 +65,10 @@
   },
 
   // Optional: If fetch is used
-  "setupFiles": ["./jest.setup.js"]
+  "setupFiles": ["./jest.setup.js"],
+
+  // Optional: If any thunk is tested
+  "transformIgnorePatterns": []
 }
 ```
 
@@ -81,4 +92,31 @@ module.exports = '';
 
 ```js
 import 'whatwg-fetch';
+
+// If working with environment variables
+require('dotenv').config({
+  path: '.env.test',
+});
+
+jest.mock('./src/helpers/getEnvironments', () => ({
+  getEnvironments: () => ({ ...process.env }),
+}));
+```
+
+- Works with environment variables: getEnvironments.js
+
+```js
+export const getEnvironments = () => {
+  import.meta.env;
+
+  return {
+    ...import.meta.env,
+  };
+};
+```
+
+- Using environment variables:
+
+```js
+const { VITE_ANY_KEY } = getEnvironments();
 ```
